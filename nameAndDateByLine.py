@@ -1,7 +1,4 @@
-#This program will print every name of a person that eats in alphabetical order along with the date on a line
-#The name and date will be separated by a ','. There will be a line for everytime someone eats
-
-file = open('lunch count 2025.txt','r')
+file = open('lunchCount.tsv','r')
 
 #Read the header line since we don't need it for the data
 file.readline()
@@ -40,7 +37,10 @@ outputDict = {key: outputDict[key] for key in sorted(outputDict)}
 csvString = 'Name,Date\n'
 
 for key in outputDict:
-    for date in outputDict[key]:
+    dates = list(outputDict[key])
+    dates.sort()
+    
+    for date in dates:
         csvString += f'{key},{date}\n'
 
 with open('nameAndDateByLine.txt', 'w') as writeFile:

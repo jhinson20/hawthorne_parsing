@@ -1,37 +1,29 @@
-#This program will print every name of a person that eats in alphabetical order along with the date on a line
-#The name and date will be separated by a ','. There will be a line for everytime someone eats
 from datetime import datetime
-
-def printMealsByLine(dict):
-    csvString = 'Name,Date\n'
-
-    for key in dict:
-        for date in dict[key]:
-            csvString += f'{key},{date}\n'
-
-    with open('nameAndDateByLine.csv', 'w') as writeFile:
-        writeFile.write(csvString)
 
 def printTotalsByMonth(dict):
     csvString = 'Name,Month,Total\n'
 
     for key in dict:
-        month, year = dict[key][0].month, dict[key][0].year
-        monthTotal = 0
+        monthTotals = {}
         for date in dict[key]:
-            if date.month == month:
-                monthTotal += 1
+            month, year = date.month, date.year
+            monthYear = f'{month}/{year}'
+
+            if monthYear in monthTotals:
+                monthTotals[monthYear] += 1
             else:
-                csvString += f'{key},{month}/{year},{monthTotal}\n'
-                monthTotal, month, year = 1, date.month, date.year
-        if monthTotal != 0:
-            csvString += f'{key},{month}/{date.year},{monthTotal}\n'
+                monthTotals[monthYear] = 1
+
+        monthTotals = {key: monthTotals[key] for key in sorted(monthTotals)}
+
+        for monthYearKey in monthTotals:
+            csvString += f'{key},{monthYearKey},{monthTotals[monthYearKey]}\n'
 
 
     with open('totalsByMonth.csv', 'w') as writeFile:
         writeFile.write(csvString)
 
-file = open('lunch count 2025.txt','r')
+file = open('lunchCount.tsv','r')
 
 #Read the header line since we don't need it for the data
 file.readline()
@@ -53,7 +45,7 @@ for line in file:
         for phrase in filterPhrases:
             studentList[i] = studentList[i].lower().replace(phrase, '')
 
-    #Remove whitespace from both ends of the name string
+    #Remove whitespace from both ends of the name string and remove blank entries
     studentList = [x.strip() for x in studentList if x != '']
 
     for student in studentList:
@@ -66,5 +58,5 @@ file.close()
 
 #Sort outputDict alphabetically by the key, which is the name
 outputDict = {key: outputDict[key] for key in sorted(outputDict)}
-printMealsByLine(outputDict)
+
 printTotalsByMonth(outputDict)
