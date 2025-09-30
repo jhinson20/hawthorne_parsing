@@ -9,7 +9,7 @@ The **hawthorne_parsing** application is designed to parse a tsv file with heade
 The application makes assumptions about the input data file, which must be named **lunchCount.tsv**. These assumpations are:
 * The first line of the file consists only of headers, no data
 * The first tsv value is dateTime values
-* The second tsv value is date values
+* The second tsv value is date values in the form **m/d/yyyy**, for example **1/2/2025** is January 2nd, 2025
 * The third tsv value is a string value
 * The fourth tsv value is a string value, which consists of names separated by commas. Commas with no names between them will be ignored
 * Name casing is ignored (i.e. john = John), but other than that name inputs should be consistent. Every name that is not input the same way will be considered unique (i.e. John Doe != John). For this reason it would be best to input full names everytime in **lunchCount.tsv**

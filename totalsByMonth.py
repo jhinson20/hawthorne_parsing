@@ -31,11 +31,11 @@ file.readline()
 outputDict = {}
 
 #Words and symbols that I found appearing in the values for student names
-filterPhrases = ['hot pockets', 'hot pocket', '-', 'lasagna', '/', ]
+filterPhrases = ['hot pockets', 'hot pocket', '-', 'lasagna', '/', '(', ')' ]
 
 for line in file:
     dataList = line.split('\t')
-    dateTime, date, teacher, studentCsv = dataList[0], datetime.strptime(dataList[1], "%m/%d/%y").date(), dataList[2], dataList[3]
+    dateTime, date, teacher, studentCsv = dataList[0], datetime.strptime(dataList[1], "%m/%d/%Y").date(), dataList[2], dataList[3]
 
     #Remove '"' and split on ','
     studentList = studentCsv.replace('\"','').split(',')
@@ -46,7 +46,10 @@ for line in file:
             studentList[i] = studentList[i].lower().replace(phrase, '')
 
     #Remove whitespace from both ends of the name string and remove blank entries
-    studentList = [x.strip() for x in studentList if x != '']
+    studentList = [x.strip() for x in studentList if x.strip() != '']
+
+    #Remove any entries that do not contain at least 1 letter
+    studentList = [x for x in studentList if any(c.isalpha() for c in x)]
 
     for student in studentList:
         if student in outputDict:
