@@ -31,7 +31,7 @@ file.readline()
 outputDict = {}
 
 #Words and symbols that I found appearing in the values for student names
-filterPhrases = ['hot pockets', 'hot pocket', '-', 'lasagna', '/', '(', ')' ]
+filterPhrases = ['hot pockets', 'hot pocket', '-', 'lasagna', '/', '(', ')', ': ' ]
 
 for line in file:
     dataList = line.split('\t')
